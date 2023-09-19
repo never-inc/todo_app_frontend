@@ -29,6 +29,7 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
       const { event } = payload
       console.log('onListenAuthChangeEvent', event, payload.data)
 
+      // アクセストークンをローカルストレージに保存
       const setAccessToken = (data: any) => {
         const result: CognitoUser = data as CognitoUser
         const session = result.getSignInUserSession()
@@ -42,6 +43,7 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
         console.log('saved accessToken')
       }
 
+      // イベントごとに処理
       if (event === 'signUp') {
         // ignore
       } else if (event === 'signIn') {
@@ -49,11 +51,12 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
       } else if (event === 'autoSignIn') {
         setAccessToken(payload.data)
       } else if (event === 'autoSignIn_failure') {
-        // redirect to sign in page
+        // todo: redirect to sign in page
       } else if (event === 'confirmSignUp') {
         // ignore
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return <AuthUserContext.Provider value={[authUser, setAuthUser]}>{children}</AuthUserContext.Provider>
