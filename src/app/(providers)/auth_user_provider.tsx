@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { CognitoUser } from 'amazon-cognito-identity-js'
 import { Amplify, Hub } from 'aws-amplify'
-import { useLocalStorage, localStorageKey } from '../(hooks)/use_local_storage'
+import * as local_storage_repository from '../(repositories)/local_storage_repository'
 
 Amplify.configure({
   Auth: {
@@ -22,7 +22,6 @@ const AuthUserContext = React.createContext<
 
 export const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null)
-  const { setValueAndStorage } = useLocalStorage(localStorageKey.accessToken)
 
   useEffect(() => {
     Hub.listen('auth', ({ payload }) => {
@@ -39,7 +38,7 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
           console.log('accessToken is empty')
           return
         }
-        setValueAndStorage(accessToken)
+        local_storage_repository.setValue('accessToken', accessToken)
         console.log('saved accessToken')
       }
 
@@ -54,9 +53,10 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
         // todo: redirect to sign in page
       } else if (event === 'confirmSignUp') {
         // ignore
+      } else if (event === 'signOut') {
+        local_storage_repository.removeValue('accessToken')
       }
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return <AuthUserContext.Provider value={[authUser, setAuthUser]}>{children}</AuthUserContext.Provider>

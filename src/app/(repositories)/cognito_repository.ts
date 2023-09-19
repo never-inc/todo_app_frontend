@@ -15,6 +15,15 @@ export const signUpWithPassword = async (username: string, email: string, passwo
   return result
 }
 
+export const confirmRegistration = async (username: string, code: string) => {
+  const result = await Auth.confirmSignUp(username, code)
+  return result
+}
+export const resendConfirmationCode = async (username: string) => {
+  const result = await Auth.resendSignUp(username)
+  return result
+}
+
 export const signInWithPassword = async (username: string, password: string) => {
   const result = await Auth.signIn({
     username: username,
@@ -23,19 +32,14 @@ export const signInWithPassword = async (username: string, password: string) => 
   return result as CognitoUser
 }
 
-export const confirmRegistration = async (username: string, code: string) => {
-  const result = await Auth.confirmSignUp(username, code)
-  return result
-}
-
-export const resendConfirmationCode = async (username: string) => {
-  const result = await Auth.resendSignUp(username)
+export const signOut = async () => {
+  const result = await Auth.signOut()
   return result
 }
 
 export const getCurrentSession = async () => {
-  const session = await Auth.currentSession()
-  return session
+  const result = await Auth.currentSession()
+  return result
 }
 
 export const getUserId = async () => {
