@@ -36,7 +36,7 @@ const Page = () => {
         }
       }
     } catch (e) {
-      alert(e instanceof Error ? e.message : 'エラー')
+      alert(e instanceof Error ? e.message : 'Error')
     }
   }
 
@@ -53,7 +53,7 @@ const Page = () => {
         setTodoTypeList(todoTypeList.filter((e) => e.todoId != todoId))
       }
     } catch (e) {
-      alert(e instanceof Error ? e.message : 'エラー')
+      alert(e instanceof Error ? e.message : 'Error')
     }
   }
 
@@ -69,7 +69,7 @@ const Page = () => {
       setTodoTypeList(result.Items)
       setTodoLastEvaluatedKey(result.LastEvaluatedKey)
     } catch (e) {
-      alert(e instanceof Error ? e.message : 'エラー')
+      alert(e instanceof Error ? e.message : 'Error')
     }
   }
 
@@ -88,7 +88,7 @@ const Page = () => {
       setTodoTypeList([...todoTypeList, ...result.Items])
       setTodoLastEvaluatedKey(result.LastEvaluatedKey)
     } catch (e) {
-      alert(e instanceof Error ? e.message : 'エラー')
+      alert(e instanceof Error ? e.message : 'Error')
     }
   }
 

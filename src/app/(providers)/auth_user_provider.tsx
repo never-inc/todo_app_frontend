@@ -29,12 +29,18 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
       const { event } = payload
       console.log('onListenAuthChangeEvent', event, payload.data)
 
-      // アクセストークンをローカルストレージに保存
-      const setAccessToken = (data: any) => {
-        const result: CognitoUser = data as CognitoUser
-        const session = result.getSignInUserSession()
+      // サインイン後のデータをセット
+      const setSignInData = (data: any) => {
+        // メールアドレスをセット
+        const email = data.attributes?.email as string | undefined
+        console.log('email', email)
+        setAuthUser({ email: email ?? null })
+
+        // アクセストークンをローカルストレージに保存
+        const cognitoUser: CognitoUser = data as CognitoUser
+        const session = cognitoUser.getSignInUserSession()
         const accessToken = session?.getAccessToken().getJwtToken()
-        console.log(result)
+        console.log(cognitoUser)
         if (!accessToken) {
           console.log('accessToken is empty')
           return
@@ -45,11 +51,17 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
 
       // イベントごとに処理
       if (event === 'signUp') {
-        // ignore
+        // メールアドレスをセット
+        const cognitoUser = payload.data?.user as CognitoUser | undefined
+        if (cognitoUser) {
+          const email = cognitoUser.getUsername()
+          console.log('email', email)
+          setAuthUser({ email: email })
+        }
       } else if (event === 'signIn') {
-        setAccessToken(payload.data)
+        setSignInData(payload.data)
       } else if (event === 'autoSignIn') {
-        setAccessToken(payload.data)
+        setSignInData(payload.data)
       } else if (event === 'autoSignIn_failure') {
         // todo: redirect to sign in page
       } else if (event === 'confirmSignUp') {
@@ -66,7 +78,7 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
 export const useAuthUser = () => {
   const context = React.useContext(AuthUserContext)
   if (context === undefined) {
-    throw new Error('useAuth must be used within a AuthUserProvider')
+    throw new Error('useAuthUser must be used within a AuthUserProvider')
   }
   return context
 }

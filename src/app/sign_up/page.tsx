@@ -22,7 +22,6 @@ const Page = () => {
     }
 
     await signUpWithPassword(refEmail.current.value, refEmail.current.value, refPassword.current.value)
-    setAuthUser({ email: refEmail.current.value })
     router.push(`/confirm_email_code`)
   }
 

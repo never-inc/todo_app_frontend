@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { confirmRegistration } from '../(repositories)/auth_repository'
+import { confirmRegistration, resendConfirmationCode } from '../(repositories)/auth_repository'
 import { useRouter } from 'next/navigation'
 import { useAuthUser } from '../(providers)/auth_user_provider'
 
@@ -22,7 +22,19 @@ const Page = () => {
     }
 
     await confirmRegistration(username, refCode.current.value)
+    // Hub.listenの通知が来てアクセストークンがローカルに保存されるまで待機する
+    await new Promise((resolve) => setTimeout(resolve, 1500))
     router.push('/todo')
+  }
+
+  const onResend = async () => {
+    if (!username) {
+      console.log('username is Empty')
+      return
+    }
+
+    await resendConfirmationCode(username)
+    alert('Send code')
   }
 
   return (
@@ -46,6 +58,9 @@ const Page = () => {
             OK
           </button>
         </div>
+        <button className="my-4 text-blue-500 hover:text-blue-700" onClick={onResend}>
+          Resend code
+        </button>
       </div>
     </div>
   )
