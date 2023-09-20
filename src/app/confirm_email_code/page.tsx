@@ -22,7 +22,7 @@ const Page = () => {
     }
 
     await confirmRegistration(username, refCode.current.value)
-    // Hub.listenの通知が来てアクセストークンがローカルに保存されるまで待機する
+    // Hub.listenの通知が来てアクセストークンがローカルに保存されるまで少し待つ（保証はされないが）
     await new Promise((resolve) => setTimeout(resolve, 1500))
     router.push('/todo')
   }

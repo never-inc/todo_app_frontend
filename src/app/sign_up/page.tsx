@@ -3,13 +3,11 @@
 import { useRef } from 'react'
 import { signUpWithPassword } from '../(repositories)/auth_repository'
 import { useRouter } from 'next/navigation'
-import { useAuthUser } from '../(providers)/auth_user_provider'
 
 const Page = () => {
   const refEmail = useRef<HTMLInputElement>(null)
   const refPassword = useRef<HTMLInputElement>(null)
   const router = useRouter()
-  const [_, setAuthUser] = useAuthUser()
 
   const onSubmit = async () => {
     if (!refEmail.current?.value) {

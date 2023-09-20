@@ -40,7 +40,6 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
         const cognitoUser: CognitoUser = data as CognitoUser
         const session = cognitoUser.getSignInUserSession()
         const accessToken = session?.getAccessToken().getJwtToken()
-        console.log(cognitoUser)
         if (!accessToken) {
           console.log('accessToken is empty')
           return
@@ -62,10 +61,6 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
         setSignInData(payload.data)
       } else if (event === 'autoSignIn') {
         setSignInData(payload.data)
-      } else if (event === 'autoSignIn_failure') {
-        // todo: redirect to sign in page
-      } else if (event === 'confirmSignUp') {
-        // ignore
       } else if (event === 'signOut') {
         local_storage_repository.removeValue('accessToken')
       }

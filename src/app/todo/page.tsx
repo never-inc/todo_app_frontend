@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import * as uuid from 'uuid'
 
 const Page = () => {
-  const [todoText, setTodoText] = useState<string>('memo')
+  const [todoText, setTodoText] = useState<string>('')
   const [todoTypeList, setTodoTypeList] = useState<TodoType[]>([])
   const [todoLastEvaluatedKey, setTodoLastEvaluatedKey] = useState<TodoLastEvaluatedKey | undefined>()
   const [count, setCount] = useState<number>(0)
@@ -33,6 +33,7 @@ const Page = () => {
         if (result.Item) {
           setCount(count + 1)
           setTodoTypeList([result.Item, ...todoTypeList])
+          setTodoText('')
         }
       }
     } catch (e) {
