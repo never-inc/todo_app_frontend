@@ -17,6 +17,7 @@ export type TodoType = {
   createdAt: string
   updatedAt: string
 }
+
 export type TodoLastEvaluatedKey = {
   userId: string
   todoId: string
