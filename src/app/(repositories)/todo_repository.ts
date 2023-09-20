@@ -1,7 +1,33 @@
 const baseUrl = process.env.NEXT_PUBLIC_REST_API_BASE_URL
 
-export const fetchTodoList = async (accessToken: string): Promise<{ [key: string]: any }> => {
-  const url = `${baseUrl}/todos/`
+export type QueryResponseType<T, U> = {
+  Count: number
+  Items: T[]
+  LastEvaluatedKey?: U
+}
+
+export type TodoType = {
+  todoId: string
+  userId: string
+  todoText: string
+  createdAt: string
+  updatedAt: string
+}
+export type TodoLastEvaluatedKey = {
+  userId: string
+  todoId: string
+  createdAt: string
+}
+
+export const fetchTodoList = async (
+  accessToken: string,
+  lastEvaluatedKey: TodoLastEvaluatedKey | undefined = undefined,
+) => {
+  // Pagination用のlastEvaluatedKeyのuserIdは、accessTokenから取得できるので付与しない
+  const url =
+    `${baseUrl}/todos` +
+    (lastEvaluatedKey != null ? `?todo_id=${lastEvaluatedKey.todoId}&created_at=${lastEvaluatedKey.createdAt}` : '')
+
   const bearerToken = `Bearer ${accessToken}`
   const res = await fetch(url, {
     method: 'GET',
@@ -9,12 +35,16 @@ export const fetchTodoList = async (accessToken: string): Promise<{ [key: string
       Authorization: bearerToken,
     },
   })
-  console.log(res)
   const body = await res.json()
-  return body
+  console.log(res.status, body)
+  if (res.status >= 200 && res.status < 300) {
+    return body as QueryResponseType<TodoType, TodoLastEvaluatedKey>
+  } else {
+    throw Error(body.message as unknown as string)
+  }
 }
 
-export const fetchTodo = async (accessToken: string, todoId: string): Promise<{ [key: string]: any }> => {
+export const fetchTodo = async (accessToken: string, todoId: string) => {
   const url = `${baseUrl}/todos/${todoId}`
   const bearerToken = `Bearer ${accessToken}`
   const res = await fetch(url, {
@@ -23,16 +53,16 @@ export const fetchTodo = async (accessToken: string, todoId: string): Promise<{ 
       Authorization: bearerToken,
     },
   })
-  console.log(res)
   const body = await res.json()
-  return body
+  console.log(res.status, body)
+  if (res.status >= 200 && res.status < 300) {
+    return body
+  } else {
+    throw Error(body.message as unknown as string)
+  }
 }
 
-export const postTodo = async (
-  accessToken: string,
-  todoId: string,
-  todoText: string,
-): Promise<{ [key: string]: any }> => {
+export const postTodo = async (accessToken: string, todoId: string, todoText: string) => {
   const url = `${baseUrl}/todos/${todoId}`
   const bearerToken = `Bearer ${accessToken}`
   const res = await fetch(url, {
@@ -43,12 +73,16 @@ export const postTodo = async (
     },
     body: JSON.stringify({ todoText: todoText }),
   })
-  console.log(res)
   const body = await res.json()
-  return body
+  console.log(res.status, body)
+  if (res.status >= 200 && res.status < 300) {
+    return res.status
+  } else {
+    throw Error(body.message as unknown as string)
+  }
 }
 
-export const deleteTodo = async (accessToken: string, todoId: string): Promise<{ [key: string]: any }> => {
+export const deleteTodo = async (accessToken: string, todoId: string) => {
   const url = `${baseUrl}/todos/${todoId}`
   const bearerToken = `Bearer ${accessToken}`
   const res = await fetch(url, {
@@ -59,7 +93,11 @@ export const deleteTodo = async (accessToken: string, todoId: string): Promise<{
     },
     body: JSON.stringify({ todoId: todoId }),
   })
-  console.log(res)
   const body = await res.json()
-  return body
+  console.log(res.status, body)
+  if (res.status >= 200 && res.status < 300) {
+    return res.status
+  } else {
+    throw Error(body.message as unknown as string)
+  }
 }
