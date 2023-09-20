@@ -17,6 +17,7 @@ const Page = () => {
     onFetch()
   }, [])
 
+  // 追加
   const onPost = async () => {
     try {
       const accessToken = local_storage_repository.getValue('accessToken')
@@ -34,6 +35,7 @@ const Page = () => {
     }
   }
 
+  // 削除
   const onDelete = async (todoId: string) => {
     try {
       const accessToken = local_storage_repository.getValue('accessToken')
@@ -49,6 +51,7 @@ const Page = () => {
     }
   }
 
+  // リストを取得
   const onFetch = async () => {
     try {
       const accessToken = local_storage_repository.getValue('accessToken')
@@ -64,6 +67,7 @@ const Page = () => {
     }
   }
 
+  // Paginationでリストを取得
   const onFetchMore = async () => {
     try {
       const accessToken = local_storage_repository.getValue('accessToken')
@@ -85,7 +89,7 @@ const Page = () => {
   return (
     <div className="m-4">
       <p>TODO count: {count}</p>
-      {/* InputForm */}
+      {/* 入力フォーム */}
       <div>
         <input
           className="block border border-grey-light w-1/3 p-3 rounded mt-2 mb-4 text-black bg-white"
@@ -106,7 +110,7 @@ const Page = () => {
           </button>
         </div>
       </div>
-      {/* List */}
+      {/* TODOリスト */}
       <div className="mt-4">
         {todoTypeList.map((e) => {
           return (

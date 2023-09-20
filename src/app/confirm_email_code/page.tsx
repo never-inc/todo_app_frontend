@@ -2,8 +2,7 @@
 
 import { useRef } from 'react'
 import * as cognito_repository from '../(repositories)/cognito_repository'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useLocalStorage, localStorageKey } from '../(hooks)/use_local_storage'
+import { useRouter } from 'next/navigation'
 import { useAuthUser } from '../(providers)/auth_user_provider'
 
 const Page = () => {
