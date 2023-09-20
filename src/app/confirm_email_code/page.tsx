@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import * as cognito_repository from '../(repositories)/cognito_repository'
+import { confirmRegistration } from '../(repositories)/auth_repository'
 import { useRouter } from 'next/navigation'
 import { useAuthUser } from '../(providers)/auth_user_provider'
 
@@ -21,7 +21,7 @@ const Page = () => {
       return
     }
 
-    await cognito_repository.confirmRegistration(username, refCode.current.value)
+    await confirmRegistration(username, refCode.current.value)
     router.push('/todo')
   }
 

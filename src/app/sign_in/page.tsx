@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { signInWithPassword } from '../(repositories)/cognito_repository'
+import { signInWithPassword } from '../(repositories)/auth_repository'
 import { useRouter } from 'next/navigation'
 
 const Page = () => {

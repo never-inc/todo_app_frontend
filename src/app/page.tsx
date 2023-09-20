@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { signOut } from './(repositories)/cognito_repository'
+import { signOut } from './(repositories)/auth_repository'
 
 export default function Home() {
   return (

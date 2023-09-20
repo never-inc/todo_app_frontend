@@ -6,6 +6,10 @@ export type QueryResponseType<T, U> = {
   LastEvaluatedKey?: U
 }
 
+export type GetResponseType<T> = {
+  Item?: T
+}
+
 export type TodoType = {
   todoId: string
   userId: string
@@ -56,7 +60,7 @@ export const fetchTodo = async (accessToken: string, todoId: string) => {
   const body = await res.json()
   console.log(res.status, body)
   if (res.status >= 200 && res.status < 300) {
-    return body
+    return body as GetResponseType<TodoType>
   } else {
     throw Error(body.message as unknown as string)
   }

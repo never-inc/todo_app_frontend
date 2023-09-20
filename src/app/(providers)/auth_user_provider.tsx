@@ -5,6 +5,7 @@ import { CognitoUser } from 'amazon-cognito-identity-js'
 import { Amplify, Hub } from 'aws-amplify'
 import * as local_storage_repository from '../(repositories)/local_storage_repository'
 
+// TODO このタイミングで良い？
 Amplify.configure({
   Auth: {
     userPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID ?? '',
@@ -33,7 +34,7 @@ export const AuthUserProvider = ({ children }: { children: React.ReactNode }) =>
         const result: CognitoUser = data as CognitoUser
         const session = result.getSignInUserSession()
         const accessToken = session?.getAccessToken().getJwtToken()
-        console.log(accessToken)
+        console.log(result)
         if (!accessToken) {
           console.log('accessToken is empty')
           return

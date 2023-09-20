@@ -27,8 +27,13 @@ const Page = () => {
       const todoId = uuid.v4()
       const result = await todo_repository.postTodo(accessToken, todoId, todoText)
       console.log(result)
+      // 新しいデータ取得してリストに追加
       if (result === 200) {
-        await onFetch()
+        const result = await todo_repository.fetchTodo(accessToken, todoId)
+        if (result.Item) {
+          setCount(count + 1)
+          setTodoTypeList([result.Item, ...todoTypeList])
+        }
       }
     } catch (e) {
       alert(e instanceof Error ? e.message : 'エラー')
@@ -44,7 +49,8 @@ const Page = () => {
       }
       const result = await todo_repository.deleteTodo(accessToken, todoId)
       if (result === 200) {
-        await onFetch()
+        setCount(Math.max(count - 1, 0))
+        setTodoTypeList(todoTypeList.filter((e) => e.todoId != todoId))
       }
     } catch (e) {
       alert(e instanceof Error ? e.message : 'エラー')

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { signUpWithPassword } from '../(repositories)/cognito_repository'
+import { signUpWithPassword } from '../(repositories)/auth_repository'
 import { useRouter } from 'next/navigation'
 import { useAuthUser } from '../(providers)/auth_user_provider'
 
