@@ -18,7 +18,7 @@ export default function Home() {
       <button
         className="rounded-full py-2 px-4 my-4 text-white bg-blue-500 hover:bg-blue-700"
         onClick={async () => {
-          signOut()
+          await signOut()
           alert('サインアウトしました')
         }}
       >
